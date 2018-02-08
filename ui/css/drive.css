@@ -1,0 +1,10 @@
+#drive-info{
+    flex: 1;
+    margin: 10px;
+    padding: 10px;
+    width: 90%;
+}
+#drive-model{
+    max-width: 25vmin;
+    max-height: 25vmin;
+}

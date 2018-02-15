@@ -51,9 +51,9 @@ var arm_pieces = {
     },
     wrist: {
         size: {
-          x: 0.2,
-          y: 0.2,
-          z: 0.2
+          x: 0.15,
+          y: 0.1,
+          z: 0.15
         }
     },
     handMid: {
@@ -158,7 +158,7 @@ function arm_setup() {
     arm_camera.lookAt(new THREE.Vector3(0, 0, 0))
 
 
-    arm_update(Math.PI / 4, Math.PI / 6,  Math.PI / 6, Math.PI / 8, Math.PI / 2.2, -Math.PI / 3, Math.PI / 5);
+    arm_update(Math.PI / 4, Math.PI / 6,  Math.PI / 6, Math.PI / 8, Math.PI / 2.2, 0, Math.PI / 5);
 
     //Add pieces to the scene
     arm_scene.add(arm_pieces.base.mesh);
@@ -214,7 +214,7 @@ function arm_setup() {
     requestAnimationFrame(arm_render);
 
 }
-//Please if you value your sanity DON'T touch any of the trig functions contained in this function
+//Please if you value your sanity DON'T touch any of the trig contained in this function
 function arm_update(rotBase, rotSeg1 , offsetSeg2, offsetWrist, offsetHand, spinHand, handOpen){
       //TODO: Scale arm_pieces in accordance to real life values, recieve data from rover1
 
@@ -292,9 +292,10 @@ function arm_update(rotBase, rotSeg1 , offsetSeg2, offsetWrist, offsetHand, spin
      + (arm_pieces.seg1.size.y * Math.sin(rotSeg1) + arm_pieces.seg2.size.y * Math.sin(rotSeg2) + arm_pieces.wrist.size.y * Math.sin(rotWrist) / 2) * Math.cos(rotBase));
 
      //Translate hand1 to the tip of seg2
+     //TODO: Fix for 3D motion
      arm_pieces.handMid.mesh.position.set(
      + (arm_pieces.seg1.size.y * Math.sin(rotSeg1) + arm_pieces.seg2.size.y * Math.sin(rotSeg2) + arm_pieces.wrist.size.y * Math.sin(rotWrist) + arm_pieces.handMid.size.y * Math.sin(rotHand) / 2) * Math.sin(rotBase),
-     + (arm_pieces.seg1.size.y * Math.cos(rotSeg1) + arm_pieces.seg2.size.y * Math.cos(rotSeg2) + arm_pieces.wrist.size.y * Math.cos(rotWrist) + arm_pieces.handMid.size.y * Math.cos(rotHand) / 2),
+     + arm_pieces.seg1.size.y * Math.cos(rotSeg1) + arm_pieces.seg2.size.y * Math.cos(rotSeg2) + arm_pieces.wrist.size.y * Math.cos(rotWrist) + arm_pieces.handMid.size.y * Math.cos(rotHand) / 2,
      + (arm_pieces.seg1.size.y * Math.sin(rotSeg1) + arm_pieces.seg2.size.y * Math.sin(rotSeg2) + arm_pieces.wrist.size.y * Math.sin(rotWrist) + arm_pieces.handMid.size.y * Math.sin(rotHand) / 2) * Math.cos(rotBase));
 
      //Set piece rotation around base
@@ -307,13 +308,12 @@ function arm_update(rotBase, rotSeg1 , offsetSeg2, offsetWrist, offsetHand, spin
      arm_pieces.seg1.mesh.rotateOnAxis(new THREE.Vector3(1, 0, 0), rotSeg1);
      arm_pieces.seg2.mesh.rotateOnAxis(new THREE.Vector3(1, 0, 0), rotSeg2);
      arm_pieces.wrist.mesh.rotateOnAxis(new THREE.Vector3(1, 0, 0), rotWrist);
-     arm_pieces.handMid.mesh.rotateOnAxis(new THREE.Vector3(1, 0, 0), rotHand);
+     arm_pieces.handMid.mesh.rotateOnAxis(new THREE.Vector3(Math.cos(spinHand), 0, Math.sin(spinHand)).normalize(), rotHand);
 
-     //Spin hand on it's own axis
-     arm_pieces.handMid.mesh.rotateOnAxis(new THREE.Vector3(0, arm_pieces.handMid.mesh.position.y, 0).normalize(), spinHand);
+     //Spin Hand about it's own axis and around base
+     arm_pieces.handMid.mesh.rotateOnAxis(new THREE.Vector3(0, 1, 0), spinHand);
 
-     //Open/close hand based on given angle. Negative angles: Close || Positive angles: Open
-
+     //Open/close hand based on given angle.            Negative angles: Close   ||   Positive angles: Open
      //TODO: Range of motion is variable depending on stathand, will need to be addressed when final scale is determined
      arm_pieces.hand1.mesh.rotateOnAxis(new THREE.Vector3(1, 0, 0), handOpen);
      arm_pieces.hand2.mesh.rotateOnAxis(new THREE.Vector3(1, 0, 0), -handOpen);
@@ -322,7 +322,7 @@ function arm_update(rotBase, rotSeg1 , offsetSeg2, offsetWrist, offsetHand, spin
 }
 
 function arm_render() {
-    arm_update(Date.now() * 0.0005, Math.PI / 3, Math.PI / 6, Math.PI / 7, Math.PI / 4, Math.PI / 4, -Math.PI / 8);
+    arm_update(Math.PI / 4, Math.PI / 4, Math.PI / 4, 0, Math.PI / 4, Math.PI / 4, -Math.PI / 8,);
 
     requestAnimationFrame(arm_render);
     arm_renderer.render(arm_scene, arm_camera);

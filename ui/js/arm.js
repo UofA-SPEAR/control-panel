@@ -1,3 +1,11 @@
+//
+//
+//
+//            Created by Hudson Shykowski and Jacob Reckhard
+//
+//
+//
+////////////////////////////////////////////////////////////////////////////////
 var arm_scene;
 var arm_camera;
 var arm_renderer;
@@ -308,10 +316,13 @@ function arm_update(rotBase, rotSeg1 , offsetSeg2, offsetWrist, offsetHand, spin
      arm_pieces.seg1.mesh.rotateOnAxis(new THREE.Vector3(1, 0, 0), rotSeg1);
      arm_pieces.seg2.mesh.rotateOnAxis(new THREE.Vector3(1, 0, 0), rotSeg2);
      arm_pieces.wrist.mesh.rotateOnAxis(new THREE.Vector3(1, 0, 0), rotWrist);
-     arm_pieces.handMid.mesh.rotateOnAxis(new THREE.Vector3(Math.cos(spinHand), 0, Math.sin(spinHand)).normalize(), rotHand);
 
-     //Spin Hand about it's own axis and around base
+     //Spin Hand around it's own axis
      arm_pieces.handMid.mesh.rotateOnAxis(new THREE.Vector3(0, 1, 0), spinHand);
+
+     //Rotate hand down
+     //NOTE :How to reposition hand after this rotation???? stuck on this part. Can be fixed in arm_pieces.handMid.mesh.position.set I just don't know how
+     arm_pieces.handMid.mesh.rotateOnAxis(new THREE.Vector3(1, 0, 0), rotHand);
 
      //Open/close hand based on given angle.            Negative angles: Close   ||   Positive angles: Open
      //TODO: Range of motion is variable depending on stathand, will need to be addressed when final scale is determined
@@ -322,8 +333,8 @@ function arm_update(rotBase, rotSeg1 , offsetSeg2, offsetWrist, offsetHand, spin
 }
 
 function arm_render() {
-    arm_update(Math.PI / 4, Math.PI / 4, Math.PI / 4, 0, Math.PI / 4, Math.PI / 4, -Math.PI / 8,);
+    arm_update(Math.PI / 4, Math.PI / 4, Math.PI / 4, 0, Math.PI / 2, Math.PI / 4, -Math.PI / 8,);
 
     requestAnimationFrame(arm_render);
     arm_renderer.render(arm_scene, arm_camera);
-}
+  }

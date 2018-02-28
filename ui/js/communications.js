@@ -16,6 +16,8 @@ function handleMessage(evt) {
         console.log("Message Recived: " + evt.data);
     }else if(data.type == "science"){
         science_processData(data);
+    }else if(data.type == "velocity"){
+        drive_processData(data);
     }
 }
 

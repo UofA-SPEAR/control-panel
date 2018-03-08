@@ -333,7 +333,7 @@ function arm_update(rotBase, rotSeg1 , offsetSeg2, offsetWrist, offsetHand, spin
 }
 
 function arm_render() {
-    arm_update(Math.PI / 4, Math.PI / 4, Math.PI / 4, 0, Math.PI / 2, Math.PI / 4, -Math.PI / 8,);
+    arm_update(Math.PI / 4, Math.PI / 4, Math.PI / 4, 0, 4, Math.PI / 4, -Math.PI / 8);
 
     requestAnimationFrame(arm_render);
     arm_renderer.render(arm_scene, arm_camera);

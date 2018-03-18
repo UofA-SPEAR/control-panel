@@ -1,0 +1,33 @@
+.video-primary {
+    background-color: pink;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 70%;
+    height: 75%;
+}
+
+.video-sidebar {
+    background-color: pink;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    width: 15%;
+    height: 75%;
+}
+
+.video-element-primary {
+    background-color: orange;
+    border: 1px solid red;
+    width: 1250px;
+    height: 650px;
+}
+
+.video-element {
+    background-color: orange;
+    border: 1px solid red;
+    width: 250px;
+    height: 129px;
+}

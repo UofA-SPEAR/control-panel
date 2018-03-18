@@ -1,6 +1,10 @@
 window.addEventListener("load", () => {
-    let videoElement = document.getElementById("video");
-    loadVideoStream(videoElement, "http://localhost/hls/mystream.m3u8");
+    // Loads the respective videos into the elements video-one through video-six.
+    let videoIds = ["video-one", "video-two", "video-three", "video-four", "video-five", "video-six"];
+    videoIds.forEach(id => {
+        let videoElement = document.getElementById(id)
+        loadVideoStream(videoElement, "http://localhost/hls/" + id + ".m3u8");
+    });
 });
 
 function loadVideoStream(videoElement, source) {

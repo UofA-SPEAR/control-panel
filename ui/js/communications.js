@@ -1,7 +1,8 @@
 var ws;
 // initialize stuff here
 function communications_setup() {
-    ws = new WebSocket("ws://" + window.location.host + "/interface");
+    //ws = new WebSocket("ws://" + window.location.host + "/interface");
+    ws = new WebSocket("ws://192.168.0.61:9090/websocket");
     ws.onmessage = handleMessage;
 
 }

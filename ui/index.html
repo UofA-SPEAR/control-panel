@@ -40,13 +40,19 @@
         <canvas height="1000" width="1000" id="drive-model" class="card"></canvas>
         <div id="drive-info" class="card">
             <div class="horz drift">
-                <div class="horz cent">
-                    <p id="drive-netspeed"></p>
-                    <p>&nbsp;m/s</p>
+                <div class="vert cent">
+                    <p>Left</p>
+                    <div class="horz cent">
+                        <p id="drive-left"></p>
+                        <p>%</p>
+                    </div>
                 </div>
-                <div class="horz cent">
-                    <p id="drive-netangle"></p>
-                    <p>&#176;</p>
+                <div class="vert cent">
+                    <p>Right</p>
+                    <div class="horz cent">
+                        <p id="drive-right"></p>
+                        <p>%</p>
+                    </div>
                 </div>
             </div>
         </div>

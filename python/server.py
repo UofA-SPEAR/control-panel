@@ -19,7 +19,7 @@ class Handler(tornado.websocket.WebSocketHandler):
         self.write_message(
             '{"type":"science", "moisture": 5, "temperature": 27, "uv": 119.3, "gps": {"lon": 113.543, "lat": 129.765}}')
         self.write_message(
-            '{"type":"velocity", "netAngle": 0.5, "netSpeed": 9}')
+            '{"type":"velocity", "left": 0.5, "right": 0}')
 
     # on_message is run anytime the server recives a new message from the client
     def on_message(self, data):

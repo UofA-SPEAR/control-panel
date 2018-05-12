@@ -2,7 +2,7 @@ window.addEventListener("load", () => {
     // Loads the respective videos into the elements video-one through video-six.
     let videoIds = ["video-one", "video-two", "video-three", "video-four", "video-five", "video-six"];
     videoIds.forEach(id => {
-        let videoElement = document.getElementById(id)
+        let videoElement = document.getElementById(id);
         loadVideoStream(videoElement, "http://localhost/hls/" + id + ".m3u8");
     });
 });
@@ -10,6 +10,9 @@ window.addEventListener("load", () => {
 function loadVideoStream(videoElement, source) {
     if (Hls.isSupported()) {
         var hls = new Hls();
+        hls.on(Hls.Events.ERROR, (event, data) => {
+            hls.destroy();
+        });
         hls.loadSource(source);
         hls.attachMedia(videoElement);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {

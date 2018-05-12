@@ -28,6 +28,10 @@ function sendDriveData(roverData){
     ws.send(JSON.stringify(roverData));
 }
 
+function sendArmData(armData) {
+    armData.type = "arm";
+    ws.send(JSON.stringify(armData));
+}
 
 window.onbeforeunload = function() {
     ws.close(); // close the connection when the window is closed

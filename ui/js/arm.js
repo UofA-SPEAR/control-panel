@@ -221,6 +221,7 @@ function arm_setup() {
 
     requestAnimationFrame(arm_render);
 
+    arm_addKeyBindings();
 }
 //Please if you value your sanity DON'T touch any of the trig contained in this function
 function arm_update(rotBase, rotSeg1 , offsetSeg2, offsetWrist, offsetHand, spinHand, handOpen){
@@ -333,8 +334,64 @@ function arm_update(rotBase, rotSeg1 , offsetSeg2, offsetWrist, offsetHand, spin
 }
 
 function arm_render() {
-    arm_update(Math.PI / 4, Math.PI / 4, Math.PI / 4, 0, 4, Math.PI / 4, -Math.PI / 8);
+    // arm_update(Math.PI / 4, Math.PI / 4, Math.PI / 4, 0, 4, Math.PI / 4, -Math.PI / 8);
 
     requestAnimationFrame(arm_render);
     arm_renderer.render(arm_scene, arm_camera);
   }
+
+// --------------------------------------
+// ----- Controls and communication -----
+// --------------------------------------
+
+// Sent by the control panel to the rover.
+let arm_roverData = {
+    base: Math.PI / 4,
+    shoulder: Math.PI / 4,
+    elbow: Math.PI / 4,
+    wrist: 0,
+    fingers: -Math.PI / 8
+};
+
+// Receives input from the user, then updates the 3D model and the rover.
+function arm_onMove() {
+    // Updates the 3D model of the arm.
+    arm_update(arm_roverData.base, arm_roverData.shoulder, arm_roverData.elbow, arm_roverData.wrist, 4, Math.PI / 4, arm_roverData.fingers);
+    // Asks the rover to move the arm accordingly.
+    sendArmData(arm_roverData);
+}
+
+// Moves the arm when the user clicks on the keys z, x, c, v, and b.
+// Pressing n toggles the direction of the motion.
+let arm_increment = 0.1;
+function arm_addKeyBindings() {
+    window.addEventListener("keydown", e => {
+        e = e || window.event;
+        switch (e.which || e.keyCode) {
+            case Keys.z:
+                arm_roverData.base += arm_increment;
+                arm_onMove();
+                break;
+            case Keys.x:
+                arm_roverData.shoulder += arm_increment;
+                arm_onMove();
+                break;
+            case Keys.c:
+                arm_roverData.elbow += arm_increment;
+                arm_onMove();
+                break;
+            case Keys.v:
+                arm_roverData.wrist += arm_increment;
+                arm_onMove();
+                break;
+            case Keys.b:
+                arm_roverData.fingers += arm_increment;
+                arm_onMove();
+                break;
+            case Keys.n:
+                arm_increment *= -1;
+                break;
+        }
+        e.preventDefault();
+    });
+}

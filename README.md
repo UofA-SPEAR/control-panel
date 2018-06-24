@@ -11,6 +11,8 @@ Press k to move the left tread down.<br>
 Press o to move the right tread up.<br>
 Press l to move the right tread down.<br>
 
+Sensitivity is controlled using the 1-9 keys on the keypad. Default is 1 so we don't send the rover through a wall on startup.
+
 ### Arm
 Our rover features a mechanical arm that allows for 5 ranges of motion:
 rotation from the base of the arm, vertical movement of the entire arm,

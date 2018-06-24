@@ -21,7 +21,7 @@ let drive_keyPressedMap = {
 };
 
 // default sensitivity, this is controlled with number keys 1-9
-let drive_sensitivity = 5;
+let drive_sensitivity = 1;
 
 // setup code
 function drive_setup() {

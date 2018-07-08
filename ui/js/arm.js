@@ -357,6 +357,13 @@ let arm_roverData = {
 function arm_onMove() {
     // Updates the 3D model of the arm.
     arm_update(arm_roverData.base, arm_roverData.shoulder, arm_roverData.elbow, arm_roverData.wrist, 4, Math.PI / 4, arm_roverData.fingers);
+
+    arm_roverData.base = (arm_roverData.base + Math.PI*2) % (2*Math.PI);
+    arm_roverData.shoulder = (arm_roverData.shoulder + Math.PI*2) % (2*Math.PI);
+    arm_roverData.elbow = (arm_roverData.elbow + Math.PI*2) % (2*Math.PI);
+    arm_roverData.wrist = (arm_roverData.wrist + Math.PI*2) % (2*Math.PI);
+    arm_roverData.fingers = (arm_roverData.fingers + Math.PI*2) % (2*Math.PI);
+
     // Asks the rover to move the arm accordingly.
     sendArmData(arm_roverData);
 }

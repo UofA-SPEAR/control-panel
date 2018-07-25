@@ -2,10 +2,6 @@
 let drive_canvas;
 let drive_ctx;
 
-// constants for the speed of controls
-const drive_speed = 0.05; // arrow growth/shrinking speed
-const drive_roverMaxSpeed = 10; // in meters per second, effects the scale of the arrow
-
 // this object is sent to the server to send to the rover whenever it is updated
 let drive_roverData = {
     left: 0,
@@ -22,6 +18,8 @@ let drive_keyPressedMap = {
 
 // default sensitivity, this is controlled with number keys 1-9
 let drive_sensitivity = 1;
+// this, combinined with drive_senstivity control the drive speed
+let drive_speedmap = [0, 0.01, 0.03, 0.05, 0.10, 0.15, 0.25, 0.50, 1, 2]; 
 
 // sync mode is for if left and right should be the same
 let drive_syncmode = false;
@@ -117,9 +115,9 @@ function drive_onFrame(time) {
 
     // updates the rover angle based on what keys are press, I.E. only if left XOR right is pressed
     if (drive_keyPressedMap.left_down && !drive_keyPressedMap.left_up) {
-        drive_roverData.left -= drive_sensitivity * drive_speed;
+        drive_roverData.left -= drive_speedmap[drive_sensitivity];
     } else if (drive_keyPressedMap.left_up && !drive_keyPressedMap.left_down) {
-        drive_roverData.left += drive_sensitivity * drive_speed;
+        drive_roverData.left += drive_speedmap[drive_sensitivity];
     }
 
     if(drive_syncmode){
@@ -127,9 +125,9 @@ function drive_onFrame(time) {
     }
 
     if (drive_keyPressedMap.right_down && !drive_keyPressedMap.right_up) {
-        drive_roverData.right -= drive_sensitivity * drive_speed;
+        drive_roverData.right -= drive_speedmap[drive_sensitivity];
     } else if (drive_keyPressedMap.right_up && !drive_keyPressedMap.right_down) {
-        drive_roverData.right += drive_sensitivity * drive_speed;
+        drive_roverData.right += drive_speedmap[drive_sensitivity];
     }
 
     if(drive_syncmode){

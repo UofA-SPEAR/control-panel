@@ -25,12 +25,18 @@ function handleMessage(evt) {
 // sends the drive data to the server in a json format
 function sendDriveData(roverData){
     roverData.type = "drive";
-    ws.send(JSON.stringify(roverData));
+    sendMessage(JSON.stringify(roverData));
 }
 
 function sendArmData(armData) {
     armData.type = "arm";
-    ws.send(JSON.stringify(armData));
+    sendMessage(JSON.stringify(armData));
+}
+
+function sendMessage(strData){
+    if(ws.readyState == ws.OPEN){
+        ws.send(strData);
+    }
 }
 
 window.onbeforeunload = function() {

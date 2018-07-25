@@ -11,6 +11,13 @@ Press k to move the left tread down.<br>
 Press o to move the right tread up.<br>
 Press l to move the right tread down.<br>
 
+Press q to reset both wheels to 0<br>
+
+Press u to turn on sync mode<br>
+Press p to turn off sync mode<br>
+
+Sync mode allows one to control both sides at the same time. Like if you want to drive in a straight line. Note, upon turning sync mode on, the right wheels will match the position of the left wheels.
+
 Sensitivity is controlled using the 1-9 keys on the keypad. Default is 1 so we don't send the rover through a wall on startup.
 
 ### Arm

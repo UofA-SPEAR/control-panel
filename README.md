@@ -39,6 +39,3 @@ Contains a web server that has been specifically designed to stream MJPEG video 
 ## Getting started
 Open a terminal and execute `./run.sh`. The test server for the control panel should be launched.<br>
 Launch Google Chrome and navigate to http://localhost:8888/. The control panel should appear and be ready for use.
-
-## Authors
-Jacob Reckhard, Kyle Hennig, and Hudson Shykowski.

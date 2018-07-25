@@ -23,6 +23,9 @@ let drive_keyPressedMap = {
 // default sensitivity, this is controlled with number keys 1-9
 let drive_sensitivity = 1;
 
+// sync mode is for if left and right should be the same
+let drive_syncmode = false;
+
 // setup code
 function drive_setup() {
     drive_canvas = document.getElementById("drive-model");
@@ -41,7 +44,10 @@ function drive_addKeyBindings() {
         lu : Keys.i, // l = left tread
         ld : Keys.k, // r = right tread
         ru : Keys.o, // u = direction up
-        rd : Keys.l  // d = direction down
+        rd : Keys.l, // d = direction down
+        s1 : Keys.u, // 1 = sync treads on 
+        s0 : Keys.p, // 0 = sync treads off
+        q  : Keys.q, // q = quit driving (reset wheels)
     };
 
     document.onkeydown = function(e) {
@@ -64,6 +70,15 @@ function drive_addKeyBindings() {
                     break;
                 case keybindings.rd:
                     drive_keyPressedMap.right_down = true;
+                    break;
+                case keybindings.s1:
+                    drive_syncmode = true;
+                    break;
+                case keybindings.s0:
+                    drive_syncmode = false;
+                    break;
+                case keybindings.q:
+                    drive_roverData.left = drive_roverData.right = 0; 
                     break;
                 default:
                     return;
@@ -99,23 +114,28 @@ function drive_processData(data){
 }
 
 function drive_onFrame(time) {
-    let isChanged = false; // so it doesn't bother sending data if there is no new data
 
     // updates the rover angle based on what keys are press, I.E. only if left XOR right is pressed
     if (drive_keyPressedMap.left_down && !drive_keyPressedMap.left_up) {
         drive_roverData.left -= drive_sensitivity * drive_speed;
-        isChanged = true;
     } else if (drive_keyPressedMap.left_up && !drive_keyPressedMap.left_down) {
         drive_roverData.left += drive_sensitivity * drive_speed;
-        isChanged = true;
     }
+
+    if(drive_syncmode){
+        drive_roverData.right = drive_roverData.left; 
+    }
+
     if (drive_keyPressedMap.right_down && !drive_keyPressedMap.right_up) {
         drive_roverData.right -= drive_sensitivity * drive_speed;
-        isChanged = true;
     } else if (drive_keyPressedMap.right_up && !drive_keyPressedMap.right_down) {
         drive_roverData.right += drive_sensitivity * drive_speed;
-        isChanged = true;
     }
+
+    if(drive_syncmode){
+        drive_roverData.left = drive_roverData.right; 
+    }
+
 
     // bound between -1 and 1
     drive_roverData.right = Math.max(-1, Math.min(drive_roverData.right, 1));
@@ -124,9 +144,7 @@ function drive_onFrame(time) {
 
 
     drive_updateDisplay();
-    if (isChanged) {
-        sendDriveData(drive_roverData); // send updated rover data to server
-    }
+    sendDriveData(drive_roverData); // send updated rover data to server
 
     // calling this means the browser will call this function again in approximatly 16.666667 milliseconds, it is actually surprisingly consistiant
     requestAnimationFrame(drive_onFrame);

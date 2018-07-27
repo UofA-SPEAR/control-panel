@@ -226,6 +226,7 @@ function arm_setup() {
 //Please if you value your sanity DON'T touch any of the trig contained in this function
 function arm_update(rotBase, rotSeg1 , offsetSeg2, offsetWrist, offsetHand, spinHand, handOpen){
       //TODO: Scale arm_pieces in accordance to real life values, recieve data from rover1
+      spinHand = Math.PI / 4;
 
       //Set angles for each successive object based off of the previous one.
       rotSeg2 = rotSeg1 - offsetSeg2
@@ -349,19 +350,21 @@ let arm_roverData = {
     base: Math.PI / 4,
     shoulder: Math.PI / 4,
     elbow: Math.PI / 4,
-    wrist: 0,
+    wrist_roll: 0,
+    wrist_pitch: 0,
     fingers: -Math.PI / 8
 };
 
 // Receives input from the user, then updates the 3D model and the rover.
 function arm_onMove() {
     // Updates the 3D model of the arm.
-    arm_update(arm_roverData.base, arm_roverData.shoulder, arm_roverData.elbow, arm_roverData.wrist, 4, Math.PI / 4, arm_roverData.fingers);
+    arm_update(arm_roverData.base, arm_roverData.shoulder, arm_roverData.elbow, arm_roverData.wrist_pitch, 4, arm_roverData.wrist_roll, arm_roverData.fingers);
 
     arm_roverData.base = (arm_roverData.base + Math.PI*2) % (2*Math.PI);
     arm_roverData.shoulder = (arm_roverData.shoulder + Math.PI*2) % (2*Math.PI);
     arm_roverData.elbow = (arm_roverData.elbow + Math.PI*2) % (2*Math.PI);
-    arm_roverData.wrist = (arm_roverData.wrist + Math.PI*2) % (2*Math.PI);
+    arm_roverData.wrist_roll = (arm_roverData.wrist_roll + Math.PI*2) % (2*Math.PI);
+    arm_roverData.wrist_pitch = (arm_roverData.wrist_pitch + Math.PI*2) % (2*Math.PI);
     arm_roverData.fingers = (arm_roverData.fingers + Math.PI*2) % (2*Math.PI);
 
     // Asks the rover to move the arm accordingly.
@@ -388,14 +391,18 @@ function arm_addKeyBindings() {
                 arm_onMove();
                 break;
             case Keys.v:
-                arm_roverData.wrist += arm_increment;
+                arm_roverData.wrist_roll += arm_increment;
                 arm_onMove();
                 break;
             case Keys.b:
-                arm_roverData.fingers += arm_increment;
+                arm_roverData.wrist_pitch += arm_increment;
                 arm_onMove();
                 break;
             case Keys.n:
+                arm_roverData.fingers += arm_increment;
+                arm_onMove();
+                break;
+            case Keys.m:
                 arm_increment *= -1;
                 break;
         }

@@ -6,7 +6,7 @@ var gps; // data from gps data
 // Processes data recived from server before loading to html
 function science_processData(jsoData) {
     // any processing of data I.E. unit conversions, scaling, formating will go here
-    if (jsoData.hasOwnProperty("moisture")) {
+    if (jsoData.hasOwnProperty("humidity")) {
         moist = jsoData.moisture;
     }
     if (jsoData.hasOwnProperty("gps")) {

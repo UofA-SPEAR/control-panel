@@ -32,10 +32,6 @@ Live video is streamed by the rover's cameras and is displayed by the control pa
 Multiple video streams should be available for viewing when all the cameras are connected.
 Uses FFmpeg and an NGINX server to transcode and stream video on the fly.
 
-### OpenMV
-Handles streaming from the OpenMV camera.
-Contains a web server that has been specifically designed to stream MJPEG video to the browser.
-
 ## Getting started
 Open a terminal and execute `./run.sh`. The test server for the control panel should be launched.<br>
 Launch Google Chrome and navigate to http://localhost:8888/. The control panel should appear and be ready for use.

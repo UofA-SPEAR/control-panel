@@ -15,8 +15,8 @@ window.addEventListener("load", () => {
     videoThree.addEventListener("error", onError);
 
     // Network addresses of the TX2 and the Raspberry Pi.
-    const tx2 = "http://localhost:8080";
-    const rpi = "http://localhost:8080";
+    const tx2 = "http://tars:8080";
+    const rpi = "http://case:8080";
 
     // The full urls of the different cameras.
     const webcam = tx2 + "/stream/webcam";

@@ -1,25 +1,9 @@
-.video-primary {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 70%;
-    height: 75%;
-}
-
 .video-sidebar {
     display: flex;
     flex-direction: column;
-    width: 15%;
-    height: 75%;
+    margin-left: 50px;
 }
 
-.video-element-primary {
-    width: 1250px;
-    height: 650px;
-}
-
-.video-element {
-    width: 250px;
-    height: 129px;
+.video-sidebar img {
+    margin-bottom: 10px;
 }

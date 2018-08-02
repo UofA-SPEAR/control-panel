@@ -1,31 +1,39 @@
 window.addEventListener("load", () => {
-    // Loads the respective videos into the elements video-one through video-six.
-    let videoIds = ["video-one", "video-two", "video-three", "video-four", "video-five", "video-six"];
-    videoIds.forEach(id => {
-        let videoElement = document.getElementById(id);
-        loadVideoStream(videoElement, "http://localhost/hls/" + id + ".m3u8");
-    });
-});
+    const videoPrimary = document.getElementById("video-primary");
+    const videoOne = document.getElementById("video-one");
+    const videoTwo = document.getElementById("video-two");
+    const videoThree = document.getElementById("video-three");
 
-function loadVideoStream(videoElement, source) {
-    if (Hls.isSupported()) {
-        var hls = new Hls();
-        hls.on(Hls.Events.ERROR, (event, data) => {
-            hls.destroy();
-        });
-        hls.loadSource(source);
-        hls.attachMedia(videoElement);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            videoElement.play();
-        });
+    // Displays a default image if the video stream could not be found.
+    function onError() {
+        const errorImage = "http://localhost:8888/error.jpg"
+        this.src = errorImage;
     }
-    // hls.js is not supported on platforms that do not have Media Source Extensions (MSE) enabled.
-    // When the browser has built-in HLS support (check using `canPlayType`), we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video element throught the `src` property.
-    // This is using the built-in support of the plain video element, without using hls.js.
-    else if (videoElement.canPlayType("application/vnd.apple.mpegurl")) {
-        videoElement.src = source;
-        videoElement.addEventListener("canplay", () => {
-            videoElement.play();
-        });
+    videoPrimary.addEventListener("error", onError);
+    videoOne.addEventListener("error", onError);
+    videoTwo.addEventListener("error", onError);
+    videoThree.addEventListener("error", onError);
+
+    // Network addresses of the TX2 and the Raspberry Pi.
+    const tx2 = "http://localhost:8080";
+    const rpi = "http://localhost:8080";
+
+    // The full urls of the different cameras.
+    const webcam = tx2 + "/stream/webcam";
+    const openmv = tx2 + "/stream/openmv";
+    const infrared = rpi + "/stream/infrared";
+
+    // Begin streaming MJPEG video to each of the image elements.
+    videoPrimary.src = webcam;
+    videoOne.src = webcam;
+    videoTwo.src = openmv;
+    videoThree.src = infrared;
+
+    // Clicking a video from the sidebar changes the primary video stream to match.
+    function onClick() {
+        videoPrimary.src = this.src;
     }
-}
+    videoOne.addEventListener("click", onClick);
+    videoTwo.addEventListener("click", onClick);
+    videoThree.addEventListener("click", onClick);
+});

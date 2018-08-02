@@ -12,8 +12,6 @@
     <script src="js/science.js"></script>
     <script src="js/communications.js"></script>
     <script src="libs/orbitcontrols.js"></script>
-    <!-- Required for video streaming -->
-    <script src="libs/hls.min.js"></script>
     <script src="js/video.js"></script>
 
     <link rel="stylesheet" href="css/style.css">
@@ -24,15 +22,13 @@
 
 <body>
     <div class="window" id="window-video">
-        <div class="video-primary">
-            <video id="video-one" class="video-element-primary"></video>
+        <div>
+            <img id="video-primary" width="480" height="360" />
         </div>
         <div class="video-sidebar">
-            <video id="video-two" class="video-element"></video>
-            <video id="video-three" class="video-element"></video>
-            <video id="video-four" class="video-element"></video>
-            <video id="video-five" class="video-element"></video>
-            <video id="video-six" class="video-element"></video>
+            <img id="video-one" width="160" height="120" />
+            <img id="video-two" width="160" height="120" />
+            <img id="video-three" width="160" height="120" />
         </div>
     </div>
     <div class="window" id="window-arm"></div>

@@ -24,6 +24,9 @@ let drive_speedmap = [0, 0.01, 0.03, 0.05, 0.10, 0.15, 0.25, 0.50, 1, 2];
 // sync mode is for if left and right should be the same
 let drive_syncmode = false;
 
+// should transmit drive signal
+let drive_transmitting = false;
+
 // setup code
 function drive_setup() {
     drive_canvas = document.getElementById("drive-model");
@@ -46,11 +49,15 @@ function drive_addKeyBindings() {
         s1 : Keys.u, // 1 = sync treads on 
         s0 : Keys.p, // 0 = sync treads off
         q  : Keys.q, // q = quit driving (reset wheels)
+        p  : Keys.a, // a = pause driving
     };
+
+    document.getElementById("window-drive").style.backgroundColor = drive_transmitting ? '#e53935' : '#AAAAAA';
 
     document.onkeydown = function(e) {
         e = e || window.event;
         let code = e.which || e.keyCode;
+
 
         // check if 1-9 keys are pressed
         if (code >= Keys.num_1 && code <= Keys.num_9) {
@@ -75,6 +82,10 @@ function drive_addKeyBindings() {
                 case keybindings.s0:
                     drive_syncmode = false;
                     break;
+                case keybindings.p:
+                    drive_transmitting = !drive_transmitting;
+                    document.getElementById("window-drive").style.backgroundColor = drive_transmitting ? '#e53935' : '#AAAAAA';
+                    // fall through is intentional
                 case keybindings.q:
                     drive_roverData.left = drive_roverData.right = 0; 
                     break;
@@ -113,36 +124,38 @@ function drive_processData(data){
 
 function drive_onFrame(time) {
 
-    // updates the rover angle based on what keys are press, I.E. only if left XOR right is pressed
-    if (drive_keyPressedMap.left_down && !drive_keyPressedMap.left_up) {
-        drive_roverData.left -= drive_speedmap[drive_sensitivity];
-    } else if (drive_keyPressedMap.left_up && !drive_keyPressedMap.left_down) {
-        drive_roverData.left += drive_speedmap[drive_sensitivity];
+    if(drive_transmitting){ 
+        // updates the rover angle based on what keys are press, I.E. only if left XOR right is pressed
+        if (drive_keyPressedMap.left_down && !drive_keyPressedMap.left_up) {
+            drive_roverData.left -= drive_speedmap[drive_sensitivity];
+        } else if (drive_keyPressedMap.left_up && !drive_keyPressedMap.left_down) {
+            drive_roverData.left += drive_speedmap[drive_sensitivity];
+        }
+
+        if(drive_syncmode){
+            drive_roverData.right = drive_roverData.left; 
+        }
+
+        if (drive_keyPressedMap.right_down && !drive_keyPressedMap.right_up) {
+            drive_roverData.right -= drive_speedmap[drive_sensitivity];
+        } else if (drive_keyPressedMap.right_up && !drive_keyPressedMap.right_down) {
+            drive_roverData.right += drive_speedmap[drive_sensitivity];
+        }
+
+        if(drive_syncmode){
+            drive_roverData.left = drive_roverData.right; 
+        }
+
+
+        // bound between -1 and 1
+        drive_roverData.right = Math.max(-1, Math.min(drive_roverData.right, 1));
+        drive_roverData.left = Math.max(-1, Math.min(drive_roverData.left, 1));
+
+
+
+        sendDriveData(drive_roverData); // send updated rover data to server
     }
-
-    if(drive_syncmode){
-        drive_roverData.right = drive_roverData.left; 
-    }
-
-    if (drive_keyPressedMap.right_down && !drive_keyPressedMap.right_up) {
-        drive_roverData.right -= drive_speedmap[drive_sensitivity];
-    } else if (drive_keyPressedMap.right_up && !drive_keyPressedMap.right_down) {
-        drive_roverData.right += drive_speedmap[drive_sensitivity];
-    }
-
-    if(drive_syncmode){
-        drive_roverData.left = drive_roverData.right; 
-    }
-
-
-    // bound between -1 and 1
-    drive_roverData.right = Math.max(-1, Math.min(drive_roverData.right, 1));
-    drive_roverData.left = Math.max(-1, Math.min(drive_roverData.left, 1));
-
-
-
     drive_updateDisplay();
-    sendDriveData(drive_roverData); // send updated rover data to server
 
     // calling this means the browser will call this function again in approximatly 16.666667 milliseconds, it is actually surprisingly consistiant
     requestAnimationFrame(drive_onFrame);

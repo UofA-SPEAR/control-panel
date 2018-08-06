@@ -12,6 +12,7 @@ Press o to move the right tread up.<br>
 Press l to move the right tread down.<br>
 
 Press q to reset both wheels to 0<br>
+Press a to stop transmitting<br>
 
 Press u to turn on sync mode<br>
 Press p to turn off sync mode<br>

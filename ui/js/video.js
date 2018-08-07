@@ -36,4 +36,17 @@ window.addEventListener("load", () => {
     videoOne.addEventListener("click", onClick);
     videoTwo.addEventListener("click", onClick);
     videoThree.addEventListener("click", onClick);
+
+    // Clicking the save screenshot button opens a new tab showing the current frame.
+    const videoScreenshot = document.getElementById("video-screenshot");
+    videoScreenshot.addEventListener("click", () => {
+        // Requests a still image of the primary stream.
+        const link = document.createElement("a");
+        link.href = videoPrimary.src.replace("stream", "image");
+        link.download = new Date();
+        link.target = "_blank";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
 });

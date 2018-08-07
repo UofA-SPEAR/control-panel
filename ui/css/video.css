@@ -1,9 +1,14 @@
+.video-main {
+    display: flex;
+    flex-direction: column;
+}
+
 .video-sidebar {
     display: flex;
     flex-direction: column;
     margin-left: 50px;
 }
 
-.video-sidebar img {
+.video-sidebar img:not(:last-child) {
     margin-bottom: 10px;
 }

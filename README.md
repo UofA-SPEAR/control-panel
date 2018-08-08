@@ -24,9 +24,9 @@ Sensitivity is controlled using the 1-9 keys on the keypad. Default is 1 so we d
 ### Arm
 Our rover features a mechanical arm that allows for 5 ranges of motion:
 rotation from the base of the arm, vertical movement of the entire arm,
-bending at the first joint, rotation at the wrist, and opening/closing the hand.
-These are controlled using the z, x, c, v, and b keys respectively.
-Press n to invert the direction of the controls.
+bending at the first joint, rotation at the wrist, wrist pitch, and opening/closing the hand.
+These are controlled using the z, x, c, v, b, and n keys respectively.
+Press m to invert the direction of the controls.
 
 ### Video
 Live video is streamed by the rover's cameras and is displayed by the control panel.

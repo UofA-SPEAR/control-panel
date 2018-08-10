@@ -53,12 +53,31 @@ class StaticHandler(tornado.web.StaticFileHandler):
             url_path = url_path + 'index.html'
         return url_path
 
+# Static handler serves the ui to the client through the browser, uses the ui folder
+class CamHandler(tornado.web.StaticFileHandler):
+    def parse_url_path(self, url_path):
+        """ Appends index.html to blank url paths
+
+        This allows urls like localhost:8888 to redirect
+        to the actual file path which should be accessed
+        with localhost:8888/index.html So basically this
+        is just a convenience function
+         """
+        print(url_path)
+        if not url_path or url_path.endswith('/'):
+            url_path = url_path + 'index.html'
+        if url_path.startswith('/'):
+            url_path = url_path[1:]
+        print(url_path)
+        return url_path
+
 
 def main(port):
     """Creates and runs the server instance on a specifed port"""
     # initialize the tornado object
     application = tornado.web.Application([
         (r"/interface", Handler),
+        (r"/cams/?(.*)", CamHandler, {"path": os.getcwd() + "/cameras"}),
         (r"/video/(.*)", StaticHandler, {"path": os.getcwd() + "/video"}),
         (r"/(.*)", StaticHandler, {"path": os.getcwd() + "/ui"})
     ], debug=True)

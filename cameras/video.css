@@ -1,0 +1,30 @@
+body{
+    background-color: #222;
+}
+.video-main {
+    display: flex;
+    flex-direction: column;
+}
+.window{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.video-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-left: 50px;
+}
+
+.video-sidebar img:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+#video-screenshot{
+    width:200px;
+    height:200px;
+}

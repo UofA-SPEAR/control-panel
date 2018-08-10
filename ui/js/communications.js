@@ -30,6 +30,7 @@ function sendDriveData(roverData){
 
 function sendArmData(armData) {
     armData.type = "arm";
+    console.log(JSON.stringify(armData));
     sendMessage(JSON.stringify(armData));
 }
 

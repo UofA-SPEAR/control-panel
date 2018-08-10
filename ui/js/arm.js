@@ -347,12 +347,12 @@ function arm_render() {
 
 // Sent by the control panel to the rover.
 let arm_roverData = {
-    base: Math.PI / 4,
-    shoulder: Math.PI / 4,
-    elbow: Math.PI / 4,
+    base: 0,
+    shoulder: 2.456768448555,
+    elbow: 0,
     wrist_roll: 0,
     wrist_pitch: 0,
-    fingers: -Math.PI / 8
+    fingers: 0,
 };
 
 // Receives input from the user, then updates the 3D model and the rover.
@@ -401,6 +401,15 @@ function arm_addKeyBindings() {
             case Keys.n:
                 arm_roverData.fingers += arm_increment;
                 arm_onMove();
+                break;
+            case Keys.h:
+            case Keys.q:
+                arm_roverData.base = 0;
+                arm_roverData.shoulder = 0;
+                arm_roverData.elbow = 0;
+                arm_roverData.wrist_roll = 0;
+                arm_roverData.wrist_pitch = 0;
+                arm_roverData.fingers = 0;
                 break;
             case Keys.m:
                 arm_increment *= -1;

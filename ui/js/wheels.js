@@ -6,6 +6,7 @@ let drive_ctx;
 let drive_roverData = {
     left: 0,
     right: 0,
+    wheelie: 0,
 };
 
 // allows smoother steering controls
@@ -24,8 +25,15 @@ let drive_speedmap = [0, 0.01, 0.03, 0.05, 0.10, 0.15, 0.25, 0.50, 1, 2];
 // sync mode is for if left and right should be the same
 let drive_syncmode = false;
 
+// wheelie mode is for turning, and hopping rocks
+let drive_wheeliemode = false;
+
 // should transmit drive signal
 let drive_transmitting = false;
+
+let drive_backcolour = '#e53935';
+let drive_wheelieoff  = '#e53935';
+let drive_wheelieon = '#e58995';
 
 // setup code
 function drive_setup() {
@@ -48,6 +56,7 @@ function drive_addKeyBindings() {
         rd : Keys.l, // d = direction down
         s1 : Keys.u, // 1 = sync treads on 
         s0 : Keys.p, // 0 = sync treads off
+        w :  Keys.w, // wheelie mode toggle
         q  : Keys.q, // q = quit driving (reset wheels)
         p  : Keys.a, // a = pause driving
     };
@@ -82,9 +91,14 @@ function drive_addKeyBindings() {
                 case keybindings.s0:
                     drive_syncmode = false;
                     break;
+                case keybindings.w:
+                    drive_wheeliemode = !drive_wheeliemode;
+                    drive_backcolour = drive_wheeliemode ? drive_wheelieon : drive_wheelieoff;
+                    document.getElementById("window-drive").style.backgroundColor = drive_transmitting ? drive_backcolour : '#AAAAAA';
+                    break;
                 case keybindings.p:
                     drive_transmitting = !drive_transmitting;
-                    document.getElementById("window-drive").style.backgroundColor = drive_transmitting ? '#e53935' : '#AAAAAA';
+                    document.getElementById("window-drive").style.backgroundColor = drive_transmitting ? drive_backcolour : '#AAAAAA';
                     // fall through is intentional
                 case keybindings.q:
                     drive_roverData.left = drive_roverData.right = 0; 
@@ -152,6 +166,7 @@ function drive_onFrame(time) {
         drive_roverData.left = Math.max(-1, Math.min(drive_roverData.left, 1));
 
 
+        drive_roverData.wheelie = drive_wheeliemode ? -0.1 : 0;
 
         sendDriveData(drive_roverData); // send updated rover data to server
     }

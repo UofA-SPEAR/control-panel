@@ -20,7 +20,9 @@ let drive_keyPressedMap = {
 // default sensitivity, this is controlled with number keys 1-9
 let drive_sensitivity = 1;
 // this, combinined with drive_senstivity control the drive speed
-let drive_speedmap = [0, 0.01, 0.03, 0.05, 0.10, 0.15, 0.25, 0.50, 1, 2]; 
+
+// quick and dirty fix to remove sensitivity stuff, please do this better
+let drive_speedmap = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; 
 
 // sync mode is for if left and right should be the same
 let drive_syncmode = false;

@@ -22,7 +22,7 @@ let drive_sensitivity = 1;
 // this, combinined with drive_senstivity control the drive speed
 
 // quick and dirty fix to remove sensitivity stuff, please do this better
-let drive_speedmap = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; 
+let drive_speedmap = [0, 0.01, 0.03, 0.05, 0.10, 0.15, 0.25, 0.50, 1, 2]; 
 
 // sync mode is for if left and right should be the same
 let drive_syncmode = false;
@@ -141,6 +141,7 @@ function drive_processData(data){
 function drive_onFrame(time) {
 
     if(drive_transmitting){ 
+        console.log(drive_keyPressedMap);
         // updates the rover angle based on what keys are press, I.E. only if left XOR right is pressed
         if (drive_keyPressedMap.left_down && !drive_keyPressedMap.left_up) {
             drive_roverData.left -= drive_speedmap[drive_sensitivity];
@@ -167,6 +168,7 @@ function drive_onFrame(time) {
         drive_roverData.right = Math.max(-1, Math.min(drive_roverData.right, 1));
         drive_roverData.left = Math.max(-1, Math.min(drive_roverData.left, 1));
 
+        console.log(drive_roverData);
 
         drive_roverData.wheelie = drive_wheeliemode ? -0.1 : 0;
 

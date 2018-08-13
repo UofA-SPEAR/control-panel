@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Rover Drive</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="js/keys.js"></script>
+    <script src="js/wheels.js"></script>
+    <script src="js/communications.js"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/drive.css">
+</head>
+
+<body>
+    <div class="window spread vert" id="window-drive">
+        <canvas height="1000" width="1000" id="drive-model" class="card"></canvas>
+        <div id="drive-info" class="card">
+            <div class="horz drift">
+                <div class="vert cent">
+                    <p>Left</p>
+                    <div class="horz cent">
+                        <p id="drive-left"></p>
+                        <p>%</p>
+                    </div>
+                </div>
+                <div class="vert cent">
+                    <p>Right</p>
+                    <div class="horz cent">
+                        <p id="drive-right"></p>
+                        <p>%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    window.addEventListener("load", () => {
+        communications_setup();
+        drive_setup();
+    });
+</script>
+
+</html>

@@ -338,6 +338,7 @@ function arm_render() {
     // arm_update(Math.PI / 4, Math.PI / 4, Math.PI / 4, 0, 4, Math.PI / 4, -Math.PI / 8);
 
     requestAnimationFrame(arm_render);
+    //arm_onMove();
     arm_renderer.render(arm_scene, arm_camera);
   }
 
@@ -360,12 +361,13 @@ function arm_onMove() {
     // Updates the 3D model of the arm.
     arm_update(arm_roverData.base, arm_roverData.shoulder, arm_roverData.elbow, arm_roverData.wrist_pitch, 4, arm_roverData.wrist_roll, arm_roverData.fingers);
 
-    arm_roverData.base = (arm_roverData.base + Math.PI*2) % (2*Math.PI);
-    arm_roverData.shoulder = (arm_roverData.shoulder + Math.PI*2) % (2*Math.PI);
-    arm_roverData.elbow = (arm_roverData.elbow + Math.PI*2) % (2*Math.PI);
-    arm_roverData.wrist_roll = (arm_roverData.wrist_roll + Math.PI*2) % (2*Math.PI);
-    arm_roverData.wrist_pitch = (arm_roverData.wrist_pitch + Math.PI*2) % (2*Math.PI);
-    arm_roverData.fingers = (arm_roverData.fingers + Math.PI*2) % (2*Math.PI);
+    if(arm_roverData.shoulder <= 0){
+        arm_roverData.shoulder = 0;
+    }
+
+    if(arm_roverData.shoulder >= Math.PI * 2){
+        arm_roverData.shoulder = Math.PI * 2;
+    }
 
     // Asks the rover to move the arm accordingly.
     sendArmData(arm_roverData);
@@ -391,11 +393,11 @@ function arm_addKeyBindings() {
                 arm_onMove();
                 break;
             case Keys.v:
-                arm_roverData.wrist_roll += arm_increment;
+                arm_roverData.wrist_pitch += arm_increment;
                 arm_onMove();
                 break;
             case Keys.b:
-                arm_roverData.wrist_pitch += arm_increment;
+                arm_roverData.wrist_roll += arm_increment;
                 arm_onMove();
                 break;
             case Keys.n:

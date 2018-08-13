@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Rover</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="libs/three.min.js"></script>
+    <script src="js/keys.js"></script>
+    <script src="js/arm.js"></script>
+    <script src="js/communications.js"></script>
+    <script src="libs/orbitcontrols.js"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/arm.css">
+</head>
+
+<body>
+    <div class="window" id="window-arm"></div>
+</body>
+
+<script>
+    window.addEventListener("load", () => {
+        communications_setup();
+        arm_setup();
+    });
+</script>
+
+</html>

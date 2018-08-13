@@ -1,17 +1,18 @@
 var ws;
+var localtime;
+var awaytime;
 // initialize stuff here
 function communications_setup() {
     //ws = new WebSocket("ws://" + window.location.host + "/interface");
     ws = new WebSocket("ws://192.168.0.61:9090/websocket");
     ws.onmessage = handleMessage;
-
+    localtime = new Date().getTime() / 1000;
 }
 
 // received messages are handled here, the json string it receives is stored in evt.data
 function handleMessage(evt) {
-    var data = JSON.parse(evt.data); // Parse the incoming JSON
     console.log(evt.data);
-
+    var data = JSON.parse(evt.data); // Parse the incoming JSON
     // if statements to determine how to handle message
     if (data.type == "test") {
         console.log("Message Recived: " + evt.data);
@@ -19,6 +20,8 @@ function handleMessage(evt) {
         science_processData(data);
     }else if(data.type == "velocity"){
         drive_processData(data);
+    }else if(data.type == "time"){
+        awaytime = data.time;
     }
 }
 

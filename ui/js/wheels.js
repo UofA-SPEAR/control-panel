@@ -138,6 +138,7 @@ function drive_processData(data){
     drive_roverData = data;
 }
 
+let drive_time = 5;
 function drive_onFrame(time) {
 
     if(drive_transmitting){ 
@@ -168,11 +169,15 @@ function drive_onFrame(time) {
         drive_roverData.right = Math.max(-1, Math.min(drive_roverData.right, 1));
         drive_roverData.left = Math.max(-1, Math.min(drive_roverData.left, 1));
 
-        console.log(drive_roverData);
 
         drive_roverData.wheelie = drive_wheeliemode ? -0.1 : 0;
 
-        sendDriveData(drive_roverData); // send updated rover data to server
+        drive_time--;
+        if(drive_time <= 0){
+            drive_time = 5;
+            console.log(drive_roverData);
+            sendDriveData(drive_roverData); // send updated rover data to server
+        }
     }
     drive_updateDisplay();
 

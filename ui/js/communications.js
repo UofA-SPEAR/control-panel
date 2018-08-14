@@ -31,6 +31,12 @@ function sendDriveData(roverData){
     sendMessage(JSON.stringify(roverData));
 }
 
+function sendRopeData(RopeData) {
+    armData.type = "rope";
+    console.log(JSON.stringify(ropeData));
+    sendMessage(JSON.stringify(ropeData));
+}
+
 function sendArmData(armData) {
     armData.type = "arm";
     console.log(JSON.stringify(armData));
